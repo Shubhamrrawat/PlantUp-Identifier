@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlantUp - Plant Identifier</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="icon" type="image/jpg" href="logo1.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:wght@500&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="navbar">    
+      <div class="logo">
+          <div class="log1"><img src="logo1.png" alt="" width="50px" stroke-width="10px"></div>
+          <div class="log2">PlantUp</div>
+      </div> 
+      <div class="oth">
+          <nav>
+              <ul>
+                  <li><a href="index.html">Home <img src="Style=outline.png" width="23px" alt=""></a></li>
+                  <li><a href="#prod">Products <img src="Style=outline.png" width="23px" alt=""></a></li>
+                  <li><a href="AboutUs.html">About Us <img src="Style=outline.png" width="23px" alt=""></a></li>
+                  <li><a href="ContactUs.html">Contacts <img src="Style=outline.png" width="23px" alt=""></a></li>
+              </ul>
+          </nav>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-container">
+          <div class="hero-content">
+            <h1>Identify Any Plant in Seconds</h1>
+            <p>Take a photo of any plant and our AI will instantly tell you what it is, how to care for it, and more.</p>
+            <div class="hero-buttons">
+              <button class="btn btn-primary">Try It Now <i class="fas fa-arrow-right"></i></button>
+              <button class="btn btn-outline">Learn More</button>
+            </div>
+          </div>
+          <div class="plant-identifier-container">
+            <div class="plant-identifier-card">
+              <div class="plant-identifier-content">
+                <div id="upload-container" class="upload-container">
+                  <i class="fas fa-upload"></i>
+                  <h3>Upload a plant image</h3>
+                  <p>Drag and drop or click to browse</p>
+                  <p>Supported formats: JPEG, PNG</p>
+                  <input type="file" id="file-upload" accept="image/jpeg,image/png" class="sr-only">
+                  <label for="file-upload" class="btn btn-outline-green">Select Image</label>
+                </div>
+
+                <div id="image-preview-container" class="image-preview-container hidden">
+                  <div class="image-preview-wrapper">
+                    <img id="image-preview" src="/placeholder.svg" alt="Uploaded plant">
+                    <button id="clear-image" class="btn-icon"><i class="fas fa-times"></i></button>
+                  </div>
+                  
+                  <div id="error-alert" class="alert alert-error hidden">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div>
+                      <h4>Error</h4>
+                      <p id="error-message"></p>
+                    </div>
+                  </div>
+
+                  <button id="identify-button" class="btn btn-primary btn-full">Identify Plant</button>
+                  
+                  <div id="loading-indicator" class="loading-container hidden">
+                    <div class="spinner"></div>
+                    <p>Identifying your plant...</p>
+                  </div>
+
+                  <div id="result-container" class="result-container hidden">
+                    <div class="plant-info">
+                      <div class="plant-name">
+                        <i class="fas fa-leaf"></i>
+                        <h3 id="scientific-name"></h3>
+                      </div>
+                      <p id="common-name" class="common-name"></p>
+                      <div class="plant-taxonomy">
+                        <div>
+                          <p class="label">Family</p>
+                          <p id="family" class="value"></p>
+                        </div>
+                        <div>
+                          <p class="label">Genus</p>
+                          <p id="genus" class="value"></p>
+                        </div>
+                      </div>
+                      <div class="confidence">
+                        <div class="confidence-header">
+                          <span>Match confidence</span>
+                          <span id="probability" class="probability"></span>
+                        </div>
+                        <div class="progress-bar">
+                          <div id="progress-value" class="progress-value"></div>
+                        </div>
+                      </div>
+                      <div class="api-info">
+                        <p id="match-count"></p>
+                        <p id="remaining-requests"></p>
+                      </div>
+                    </div>
+
+                    <div id="care-tips" class="care-tips">
+                      <div class="care-tips-header">
+                        <h3>Care Tips</h3>
+                        <span id="plant-category" class="plant-category">General</span>
+                      </div>
+                      <div class="care-tips-content">
+                        <div class="care-tip">
+                          <div class="care-tip-icon">
+                            <i class="fas fa-tint"></i>
+                          </div>
+                          <div>
+                            <p class="care-tip-title">Watering</p>
+                            <p id="watering-tip" class="care-tip-text"></p>
+                          </div>
+                        </div>
+                        <div class="care-tip">
+                          <div class="care-tip-icon">
+                            <i class="fas fa-sun"></i>
+                          </div>
+                          <div>
+                            <p class="care-tip-title">Light</p>
+                            <p id="light-tip" class="care-tip-text"></p>
+                          </div>
+                        </div>
+                        <div class="care-tip">
+                          <div class="care-tip-icon">
+                            <i class="fas fa-thermometer-half"></i>
+                          </div>
+                          <div>
+                            <p class="care-tip-title">Temperature</p>
+                            <p id="temperature-tip" class="care-tip-text"></p>
+                          </div>
+                        </div>
+                        <div class="care-tip">
+                          <div class="care-tip-icon">
+                            <i class="fas fa-mountain"></i>
+                          </div>
+                          <div>
+                            <p class="care-tip-title">Soil</p>
+                            <p id="soil-tip" class="care-tip-text"></p>
+                          </div>
+                        </div>
+                      </div>
+                      <p class="care-tips-note">Note: These are general care guidelines based on plant type. Specific varieties may have different requirements.</p>
+                    </div>
+
+                    <button id="identify-another" class="btn btn-outline-green btn-full">Identify Another Plant</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="features">
+        <div class="features-container">
+          <div class="section-header">
+            <h2>Why Choose PlantUp?</h2>
+            <p>Our plant identification technology is trusted by botanists, gardeners, and plant enthusiasts worldwide.</p>
+          </div>
+          <div class="feature-cards">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-search"></i>
+              </div>
+              <h3>Instant Identification</h3>
+              <p>Get accurate plant identification in seconds with our advanced AI technology.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-tint"></i>
+              </div>
+              <h3>Care Instructions</h3>
+              <p>Learn how to properly care for your plants with detailed watering, light, and soil guidance.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-database"></i>
+              </div>
+              <h3>Vast Database</h3>
+              <p>Access information on over 10,000 plant species from around the world.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How It Works Section -->
+      <section class="how-it-works">
+        <div class="how-it-works-container">
+          <div class="section-header">
+            <h2>How It Works</h2>
+            <p>Identifying plants with PlantUp is simple and fast. Just follow these easy steps.</p>
+          </div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-icon">
+                <i class="fas fa-camera"></i>
+              </div>
+              <h3>1. Take a Photo</h3>
+              <p>Snap a clear photo of any plant you want to identify. Make sure to capture the leaves, flowers, or distinctive features.</p>
+            </div>
+            <div class="step">
+              <div class="step-icon">
+                <i class="fas fa-search"></i>
+              </div>
+              <h3>2. Our AI Analyzes</h3>
+              <p>Our advanced AI technology analyzes the image, comparing it with our database of over 10,000 plant species.</p>
+            </div>
+            <div class="step">
+              <div class="step-icon">
+                <i class="fas fa-leaf"></i>
+              </div>
+              <h3>3. Get Results</h3>
+              <p>Receive detailed information about your plant, including its name, care instructions, and interesting facts.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-container">
+        <p>© 2025 PlantUp. All rights reserved.</p>
+        <nav>
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy</a>
+          <a href="#">Contact</a>
+        </nav>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
